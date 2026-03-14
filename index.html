@@ -284,7 +284,7 @@ function App() {
 
   // Areas
   const [areas,         setAreas]         = useState((saved.areas && saved.areas.length > 0) ? saved.areas : [DEFAULT_AREA]);
-  const [currentArea,   setCurrentArea]   = useState(0);
+  const [currentArea,   setCurrentArea]   = useState(saved.currentArea || 0);
   const [saveFlash,     setSaveFlash]     = useState(false);
   const [mounted,       setMounted]       = useState(false);
 
@@ -293,7 +293,7 @@ function App() {
   // Auto-save only after mount to avoid overwriting saved data on first render
   useEffect(function() {
     if (!mounted) return;
-    saveData({ prefMachines, peakOccupancy, prefRatio, machineName, nationalSales, selectedEval, areas });
+    saveData({ prefMachines, peakOccupancy, prefRatio, machineName, nationalSales, selectedEval, areas, currentArea });
     setSaveFlash(true);
     var t = setTimeout(function() { setSaveFlash(false); }, 1500);
     return function() { clearTimeout(t); };
