@@ -269,39 +269,35 @@ function saveData(data) {
 }
 
 function App() {
+  // Load saved data first, use as initial state
+  var saved = (function() { try { var r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : {}; } catch(e) { return {}; } })();
+
   // Global settings
-  const [prefMachines,  setPrefMachines]  = useState(DEFAULT_GLOBAL.prefMachines);
-  const [peakOccupancy, setPeakOccupancy] = useState(DEFAULT_GLOBAL.peakOccupancy);
-  const [prefRatio,     setPrefRatio]     = useState(DEFAULT_GLOBAL.prefRatio);
+  const [prefMachines,  setPrefMachines]  = useState(saved.prefMachines  || DEFAULT_GLOBAL.prefMachines);
+  const [peakOccupancy, setPeakOccupancy] = useState(saved.peakOccupancy || DEFAULT_GLOBAL.peakOccupancy);
+  const [prefRatio,     setPrefRatio]     = useState(saved.prefRatio     || DEFAULT_GLOBAL.prefRatio);
 
   // Machine
-  const [machineName,   setMachineName]   = useState("");
-  const [nationalSales, setNationalSales] = useState("10000");
-  const [selectedEval,  setSelectedEval]  = useState("良");
+  const [machineName,   setMachineName]   = useState(saved.machineName   || "");
+  const [nationalSales, setNationalSales] = useState(saved.nationalSales || "10000");
+  const [selectedEval,  setSelectedEval]  = useState(saved.selectedEval  || "良");
 
   // Areas
-  const [areas,         setAreas]         = useState([DEFAULT_AREA]);
+  const [areas,         setAreas]         = useState((saved.areas && saved.areas.length > 0) ? saved.areas : [DEFAULT_AREA]);
   const [currentArea,   setCurrentArea]   = useState(0);
   const [saveFlash,     setSaveFlash]     = useState(false);
+  const [mounted,       setMounted]       = useState(false);
 
-  // Load from localStorage on mount
-  useEffect(function() {
-    var data = loadData();
-    if (data) {
-      if (data.prefMachines)  setPrefMachines(data.prefMachines);
-      if (data.peakOccupancy) setPeakOccupancy(data.peakOccupancy);
-      if (data.prefRatio)     setPrefRatio(data.prefRatio);
-      if (data.areas && data.areas.length > 0) setAreas(data.areas);
-    }
-  }, []);
+  useEffect(function() { setMounted(true); }, []);
 
-  // Auto-save whenever areas or global settings change
+  // Auto-save only after mount to avoid overwriting saved data on first render
   useEffect(function() {
-    saveData({ prefMachines, peakOccupancy, prefRatio, areas });
+    if (!mounted) return;
+    saveData({ prefMachines, peakOccupancy, prefRatio, machineName, nationalSales, selectedEval, areas });
     setSaveFlash(true);
     var t = setTimeout(function() { setSaveFlash(false); }, 1500);
     return function() { clearTimeout(t); };
-  }, [prefMachines, peakOccupancy, prefRatio, areas]);
+  }, [mounted, prefMachines, peakOccupancy, prefRatio, machineName, nationalSales, selectedEval, areas]);
 
   var area = areas[currentArea] || areas[0];
 
