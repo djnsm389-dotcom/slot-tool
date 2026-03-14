@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -23,20 +24,16 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--bg); color: var(--text); font-family: 'Noto Sans JP', sans-serif; min-height: 100vh; }
-    .grid-bg { display: none; }
-    #root { position: relative; z-index: 1; }
+    #root { position: relative; }
     .wrap { max-width: 920px; margin: 0 auto; padding: 36px 24px 48px; }
 
-    /* Header */
-    .header { margin-bottom: 40px; border-bottom: 1px solid rgba(26,86,219,0.12); padding-bottom: 24px; }
+    .header { margin-bottom: 32px; border-bottom: 1px solid rgba(26,86,219,0.12); padding-bottom: 24px; }
     .header-sub { font-family: 'Rajdhani', sans-serif; font-size: 10px; letter-spacing: 0.4em; color: rgba(26,86,219,0.5); margin-bottom: 10px; }
     .header-title { font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); letter-spacing: 0.05em; }
     .header-title span { color: var(--amber); margin-left: 10px; }
 
-    /* Section */
     .section {
-      background: #ffffff;
-      border: 1px solid var(--amber-border);
+      background: #ffffff; border: 1px solid var(--amber-border);
       border-radius: 4px; padding: 24px 28px; margin-bottom: 20px;
       position: relative; overflow: hidden;
     }
@@ -50,22 +47,59 @@
       letter-spacing: 0.3em; color: var(--amber); text-transform: uppercase; margin-bottom: 20px;
     }
 
+    /* Area tabs */
+    .area-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+    .area-tab {
+      padding: 6px 16px; border-radius: 20px; font-size: 13px; cursor: pointer;
+      border: 1px solid rgba(26,86,219,0.3); background: transparent;
+      color: var(--amber); font-family: 'Noto Sans JP', sans-serif;
+      transition: all 0.15s;
+    }
+    .area-tab.active { background: var(--amber); color: #fff; font-weight: 700; border-color: var(--amber); }
+    .area-tab-del {
+      background: transparent; border: none; color: rgba(229,62,62,0.4);
+      cursor: pointer; font-size: 12px; margin-left: 2px; padding: 0 2px;
+    }
+    .area-tab-del:hover { color: var(--warn); }
+    .area-add-btn {
+      padding: 6px 14px; border-radius: 20px; font-size: 12px; cursor: pointer;
+      border: 1px dashed rgba(26,86,219,0.3); background: transparent;
+      color: var(--amber); font-family: 'Noto Sans JP', sans-serif;
+    }
+    .area-name-input {
+      background: #f0f4ff; border: 1px solid rgba(26,86,219,0.2);
+      border-radius: 4px; color: var(--text); padding: 4px 10px;
+      font-size: 13px; width: 120px; outline: none;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .area-name-input:focus { border-color: var(--amber); }
+    .save-indicator {
+      font-size: 10px; color: #48bb78; margin-left: 8px;
+      font-family: 'Rajdhani', sans-serif; letter-spacing: 0.1em;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .save-indicator.show { opacity: 1; }
+
     /* Inputs */
     .input-row { display: flex; align-items: center; margin-bottom: 12px; gap: 12px; flex-wrap: wrap; }
     .input-label { color: var(--text-dim); font-size: 12px; width: 200px; flex-shrink: 0; }
     .input-wrap { display: flex; align-items: center; gap: 8px; }
     .num-input {
-      background: #f0f4ff;
-      border: 1px solid rgba(26,86,219,0.2);
+      background: #f0f4ff; border: 1px solid rgba(26,86,219,0.2);
       border-radius: 2px; color: var(--text);
       padding: 6px 12px; font-size: 14px; width: 130px;
-      font-family: 'Rajdhani', sans-serif; font-weight: 600;
-      outline: none;
+      font-family: 'Rajdhani', sans-serif; font-weight: 600; outline: none;
     }
     .num-input:focus { border-color: var(--amber); background: #e8eeff; }
     .suffix { color: var(--text-dim); font-size: 12px; }
+    .text-input {
+      background: #f0f4ff; border: 1px solid rgba(26,86,219,0.2);
+      border-radius: 2px; color: var(--text);
+      padding: 6px 12px; font-size: 14px;
+      font-family: 'Noto Sans JP', sans-serif; outline: none;
+    }
+    .text-input:focus { border-color: var(--amber); background: #e8eeff; }
 
-    /* Result box */
     .result-box {
       background: #f0f4ff; border: 1px solid rgba(26,86,219,0.15);
       border-radius: 2px; padding: 12px 16px; margin-top: 14px; font-size: 13px;
@@ -77,17 +111,15 @@
     .result-row { display: flex; gap: 32px; flex-wrap: wrap; }
     .result-val { font-family: 'Rajdhani', sans-serif; font-size: 15px; color: var(--text); font-weight: 600; }
 
-    /* Outshare table */
     .sub-label { font-family: 'Rajdhani', sans-serif; font-size: 10px; letter-spacing: 0.15em; color: var(--text-dim); margin-bottom: 10px; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th { padding: 8px 12px; font-weight: 400; border-bottom: 1px solid rgba(26,86,219,0.1); color: var(--text-dim); font-size: 11px; letter-spacing: 0.08em; cursor: pointer; }
     th.active { color: var(--amber); font-weight: 700; }
     td { padding: 8px 12px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-    td.active-col { background: rgba(26,86,219,0.05); color: var(--text); font-weight: 600; font-family: 'Rajdhani', sans-serif; font-size: 14px; }
-    td.inactive-col { color: rgba(0,0,0,0.25); font-family: 'Rajdhani', sans-serif; }
+    td.active-col { background: rgba(26,86,219,0.05); color: var(--text); font-weight: 600; font-family: 'Rajdhani', sans-serif; font-size: 14px; text-align: center; }
+    td.inactive-col { color: rgba(0,0,0,0.25); font-family: 'Rajdhani', sans-serif; text-align: center; }
     .hint { font-size: 10px; color: var(--text-dim); margin-top: 6px; }
 
-    /* Store list */
     .store-row {
       background: #f9fafb; border: 1px solid rgba(0,0,0,0.08);
       border-radius: 3px; padding: 10px 14px; margin-bottom: 8px;
@@ -101,7 +133,7 @@
     }
     .store-name-input.mystore { color: var(--amber); font-weight: 700; }
     .store-machines-input {
-      background: #f0f4ff; border: 1px solid rgba(26,86,219,0.2);
+      background: #f0f4ff; border: 1px solid rgba(26,86,219,0.15);
       border-radius: 2px; color: var(--text); padding: 4px 10px;
       font-size: 13px; width: 90px; outline: none;
       font-family: 'Rajdhani', sans-serif; font-weight: 600;
@@ -114,19 +146,14 @@
       color: var(--amber); padding: 6px 16px; font-size: 11px;
       cursor: pointer; letter-spacing: 0.1em; font-family: 'Noto Sans JP', sans-serif;
     }
-    .remove-btn {
-      margin-left: auto; background: transparent; border: none;
-      color: rgba(0,0,0,0.25); cursor: pointer; font-size: 14px;
-    }
+    .remove-btn { margin-left: auto; background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 14px; }
     .remove-btn:hover { color: var(--warn); }
-    .remove-btn { color: #aaa; }
     .area-summary {
       margin-top: 14px; padding: 10px 14px;
       background: #f0f4ff; border-radius: 2px;
       font-size: 12px; color: var(--text-dim); display: flex; gap: 24px;
     }
 
-    /* Eval buttons */
     .eval-row { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; align-items: center; }
     .eval-label { font-size: 11px; color: var(--text-dim); letter-spacing: 0.1em; }
     .eval-btn {
@@ -134,11 +161,10 @@
       border-radius: 2px; color: var(--amber); padding: 4px 16px;
       font-size: 12px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif;
     }
-    .eval-btn.active { background: var(--amber); color: #060d1a; font-weight: 700; }
-    .eval-btn.bad { border-color: rgba(255,107,53,0.4); color: var(--warn); }
+    .eval-btn.active { background: var(--amber); color: #fff; font-weight: 700; }
+    .eval-btn.bad { border-color: rgba(229,62,62,0.4); color: var(--warn); }
     .eval-btn.bad.active { background: var(--warn); color: #fff; }
 
-    /* Week cards */
     .week-cards { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
     .week-card { flex: 1; min-width: 90px; border-radius: 3px; padding: 14px 12px; text-align: center; }
     .week-card.first { background: #e8eeff; border: 1px solid rgba(26,86,219,0.35); }
@@ -148,19 +174,18 @@
     .week-unit { font-size: 10px; color: rgba(0,0,0,0.3); margin-top: 4px; }
     .week-os { font-size: 9px; color: rgba(26,86,219,0.5); margin-top: 6px; font-family: 'Rajdhani', sans-serif; }
 
-    /* Recommend box */
     .recommend-box {
       padding: 20px 24px; border-radius: 4px;
       display: flex; align-items: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap;
     }
-    .recommend-box.normal { background: rgba(245,200,66,0.06); border: 1px solid rgba(26,86,219,0.3); }
+    .recommend-box.normal { background: #f0f4ff; border: 1px solid rgba(26,86,219,0.3); }
     .recommend-box.bad { background: #fff5f5; border: 1px solid rgba(229,62,62,0.3); }
     .rec-label { font-size: 10px; letter-spacing: 0.15em; margin-bottom: 6px; }
     .big-num { font-family: 'Rajdhani', sans-serif; font-size: 56px; font-weight: 700; line-height: 1; }
     .rec-unit { font-size: 12px; margin-top: 4px; }
     .badge-warn {
       margin-top: 10px; padding: 5px 12px;
-      background: rgba(255,107,53,0.15); border: 1px solid rgba(255,107,53,0.4);
+      background: rgba(229,62,62,0.1); border: 1px solid rgba(229,62,62,0.4);
       border-radius: 2px; font-size: 11px; color: var(--warn);
       font-weight: 700; letter-spacing: 0.05em; display: inline-block;
     }
@@ -181,7 +206,6 @@
     .rec-info-label { font-size: 11px; color: var(--text-dim); }
     .rec-info-val { font-size: 16px; font-weight: 700; font-family: 'Rajdhani', sans-serif; }
 
-    /* Sufficiency */
     .suf-box {
       padding: 16px 20px; border-radius: 3px;
       display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
@@ -189,16 +213,15 @@
     .suf-label { font-family: 'Rajdhani', sans-serif; font-size: 10px; color: var(--text-dim); margin-bottom: 4px; letter-spacing: 0.1em; }
     .suf-num { font-family: 'Rajdhani', sans-serif; font-size: 34px; font-weight: 700; }
     .suf-msg { font-size: 12px; }
-
-    /* Footer */
     .footer { text-align: center; font-size: 10px; color: rgba(26,86,219,0.3); margin-top: 12px; letter-spacing: 0.08em; font-family: 'Rajdhani', sans-serif; }
   </style>
 </head>
 <body>
-<div class="grid-bg"></div>
 <div id="root"></div>
 <script>
-const { useState, useCallback, createElement: h } = React;
+const { useState, useEffect, useCallback, createElement: h } = React;
+
+const STORAGE_KEY = 'slot_tool_v1';
 
 const DECAY_RATIOS = {
   特上: [1.000, 0.970, 0.940, 0.920, 0.900],
@@ -209,69 +232,134 @@ const DECAY_RATIOS = {
 const EVALUATIONS = ["特上", "良", "並", "悪"];
 const WEEKS = ["初週", "2週目", "3週目", "4週目", "5週目"];
 
-const DEFAULT_STORES = [
-  { name: "自店",  machines: "491" },
-  { name: "競合A", machines: "717" },
-  { name: "競合B", machines: "461" },
-  { name: "競合C", machines: "410" },
-  { name: "競合D", machines: "351" },
-  { name: "競合E", machines: "259" },
-  { name: "競合F", machines: "370" },
-  { name: "競合G", machines: "251" },
-];
+const DEFAULT_AREA = {
+  name: "浜線エリア",
+  areaPeakCustomers: "2300",
+  stores: [
+    { name: "自店",  machines: "491" },
+    { name: "競合A", machines: "717" },
+    { name: "競合B", machines: "461" },
+    { name: "競合C", machines: "410" },
+    { name: "競合D", machines: "351" },
+    { name: "競合E", machines: "259" },
+    { name: "競合F", machines: "370" },
+    { name: "競合G", machines: "251" },
+  ]
+};
+
+const DEFAULT_GLOBAL = {
+  prefMachines: "16926",
+  peakOccupancy: "38.7",
+  prefRatio: "2",
+};
 
 function n(v) { return parseFloat(v) || 0; }
 function fmt(v, d) { return n(v).toFixed(d === undefined ? 2 : d); }
 
-function App() {
-  const [prefMachines,      setPrefMachines]      = useState("16926");
-  const [peakOccupancy,     setPeakOccupancy]     = useState("38.7");
-  const [prefRatio,         setPrefRatio]         = useState("2");
-  const [machineName,       setMachineName]       = useState("");
-  const [nationalSales,     setNationalSales]     = useState("10000");
-  const [selectedEval,      setSelectedEval]      = useState("良");
-  const [areaPeakCustomers, setAreaPeakCustomers] = useState("2300");
-  const [stores,            setStores]            = useState(DEFAULT_STORES);
+function loadData() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
 
-  const updateStore = useCallback(function(i, field, val) {
-    setStores(function(prev) {
-      return prev.map(function(s, idx) {
-        return idx === i ? Object.assign({}, s, { [field]: val }) : s;
-      });
-    });
+function saveData(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function App() {
+  // Global settings
+  const [prefMachines,  setPrefMachines]  = useState(DEFAULT_GLOBAL.prefMachines);
+  const [peakOccupancy, setPeakOccupancy] = useState(DEFAULT_GLOBAL.peakOccupancy);
+  const [prefRatio,     setPrefRatio]     = useState(DEFAULT_GLOBAL.prefRatio);
+
+  // Machine
+  const [machineName,   setMachineName]   = useState("");
+  const [nationalSales, setNationalSales] = useState("10000");
+  const [selectedEval,  setSelectedEval]  = useState("良");
+
+  // Areas
+  const [areas,         setAreas]         = useState([DEFAULT_AREA]);
+  const [currentArea,   setCurrentArea]   = useState(0);
+  const [saveFlash,     setSaveFlash]     = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(function() {
+    var data = loadData();
+    if (data) {
+      if (data.prefMachines)  setPrefMachines(data.prefMachines);
+      if (data.peakOccupancy) setPeakOccupancy(data.peakOccupancy);
+      if (data.prefRatio)     setPrefRatio(data.prefRatio);
+      if (data.areas && data.areas.length > 0) setAreas(data.areas);
+    }
   }, []);
 
-  function addStore() {
-    setStores(function(prev) {
-      return prev.concat([{ name: "競合" + String.fromCharCode(64 + prev.length), machines: "200" }]);
+  // Auto-save whenever areas or global settings change
+  useEffect(function() {
+    saveData({ prefMachines, peakOccupancy, prefRatio, areas });
+    setSaveFlash(true);
+    var t = setTimeout(function() { setSaveFlash(false); }, 1500);
+    return function() { clearTimeout(t); };
+  }, [prefMachines, peakOccupancy, prefRatio, areas]);
+
+  var area = areas[currentArea] || areas[0];
+
+  function updateArea(field, val) {
+    setAreas(function(prev) {
+      return prev.map(function(a, i) {
+        return i === currentArea ? Object.assign({}, a, { [field]: val }) : a;
+      });
     });
   }
-  function removeStore(i) {
-    if (stores.length > 1) {
-      setStores(function(prev) { return prev.filter(function(_, idx) { return idx !== i; }); });
+
+  function updateStore(si, field, val) {
+    var newStores = area.stores.map(function(s, idx) {
+      return idx === si ? Object.assign({}, s, { [field]: val }) : s;
+    });
+    updateArea('stores', newStores);
+  }
+
+  function addStore() {
+    var newStores = area.stores.concat([{ name: "競合" + String.fromCharCode(64 + area.stores.length), machines: "200" }]);
+    updateArea('stores', newStores);
+  }
+
+  function removeStore(si) {
+    if (area.stores.length > 1) {
+      updateArea('stores', area.stores.filter(function(_, idx) { return idx !== si; }));
     }
   }
 
+  function addArea() {
+    var newArea = Object.assign({}, DEFAULT_AREA, { name: "エリア" + (areas.length + 1), stores: [{ name: "自店", machines: "300" }] });
+    setAreas(function(prev) { return prev.concat([newArea]); });
+    setCurrentArea(areas.length);
+  }
+
+  function removeArea(i) {
+    if (areas.length <= 1) return;
+    setAreas(function(prev) { return prev.filter(function(_, idx) { return idx !== i; }); });
+    setCurrentArea(Math.max(0, i - 1));
+  }
+
   // Calculations
-  const maxPlayers    = n(prefMachines) * (n(peakOccupancy) / 100);
-  const prefSales     = n(nationalSales) * (n(prefRatio) / 100);
-  const baseOutshare  = maxPlayers > 0 ? (prefSales / maxPlayers) * 100 : 0;
+  const maxPlayers   = n(prefMachines) * (n(peakOccupancy) / 100);
+  const prefSales    = n(nationalSales) * (n(prefRatio) / 100);
+  const baseOutshare = maxPlayers > 0 ? (prefSales / maxPlayers) * 100 : 0;
 
   const outshareByEval = {};
   EVALUATIONS.forEach(function(ev) {
     outshareByEval[ev] = DECAY_RATIOS[ev].map(function(r) { return baseOutshare * r; });
   });
 
-  const totalAreaMachines = stores.reduce(function(s, st) { return s + n(st.machines); }, 0);
-  const myShare = totalAreaMachines > 0 ? n(stores[0].machines) / totalAreaMachines : 0;
-
-  const weeklyAreaCustomers = outshareByEval[selectedEval].map(function(os) {
-    return n(areaPeakCustomers) * (os / 100);
-  });
+  const totalAreaMachines = area.stores.reduce(function(s, st) { return s + n(st.machines); }, 0);
+  const myShare = totalAreaMachines > 0 ? n(area.stores[0].machines) / totalAreaMachines : 0;
+  const weeklyAreaCustomers = outshareByEval[selectedEval].map(function(os) { return n(area.areaPeakCustomers) * (os / 100); });
   const myWeeklyCount = weeklyAreaCustomers.map(function(c) { return c * myShare; });
   const totalAreaCount = weeklyAreaCustomers.slice();
 
-  const totalImported = stores.reduce(function(sum, st) {
+  const totalImported = area.stores.reduce(function(sum, st) {
     var share = totalAreaMachines > 0 ? n(st.machines) / totalAreaMachines : 0;
     return sum + weeklyAreaCustomers[0] * share;
   }, 0);
@@ -280,15 +368,12 @@ function App() {
   const isBad  = selectedEval === "悪";
   const isGood = sufficiencyRate <= 100;
 
-  // --- Render helpers ---
-  function InputRow(label, value, setter, suffix, step) {
+  function InputRow(label, value, setter, suffix) {
     return h('div', { className: 'input-row' },
       h('label', { className: 'input-label' }, label),
       h('div', { className: 'input-wrap' },
         h('input', {
-          className: 'num-input',
-          type: 'text',
-          inputMode: 'decimal',
+          className: 'num-input', type: 'text', inputMode: 'decimal',
           value: value,
           onChange: function(e) { setter(e.target.value); },
           onFocus: function(e) { e.target.select(); },
@@ -303,7 +388,10 @@ function App() {
     // Header
     h('div', { className: 'header' },
       h('div', { className: 'header-sub' }, 'SLOT UNIT ANALYSIS TOOL / 20円スロット'),
-      h('h1', { className: 'header-title' }, '20円スロット', h('span', null, '新台適正導入台数算出ツール'))
+      h('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
+        h('h1', { className: 'header-title' }, '20円スロット', h('span', null, '新台適正導入台数算出ツール')),
+        h('span', { className: 'save-indicator' + (saveFlash ? ' show' : '') }, '✓ 保存済み')
+      )
     ),
 
     // 01 県内データ
@@ -326,23 +414,14 @@ function App() {
         h('label', { className: 'input-label' }, '機種名　／　全国販売台数'),
         h('div', { className: 'input-wrap' },
           h('input', {
-            type: 'text',
+            type: 'text', className: 'text-input',
             value: machineName,
             onChange: function(e) { setMachineName(e.target.value); },
             placeholder: '機種名を入力',
-            style: {
-              background: 'rgba(26,86,219,0.04)',
-              border: '1px solid rgba(26,86,219,0.2)',
-              borderRadius: 2, color: 'var(--text)',
-              padding: '6px 12px', fontSize: 14, width: 200,
-              fontFamily: 'Noto Sans JP, sans-serif', outline: 'none',
-              marginRight: 8,
-            }
+            style: { width: 200, marginRight: 8 }
           }),
           h('input', {
-            className: 'num-input',
-            type: 'text',
-            inputMode: 'decimal',
+            className: 'num-input', type: 'text', inputMode: 'decimal',
             value: nationalSales,
             onChange: function(e) { setNationalSales(e.target.value); },
             onFocus: function(e) { e.target.select(); },
@@ -365,25 +444,16 @@ function App() {
             h('tr', null,
               h('th', { style: { textAlign: 'left' } }, '週'),
               EVALUATIONS.map(function(ev) {
-                return h('th', {
-                  key: ev,
-                  className: selectedEval === ev ? 'active' : '',
-                  style: { textAlign: 'center' },
-                  onClick: function() { setSelectedEval(ev); },
-                }, ev + (selectedEval === ev ? ' ▲' : ''));
+                return h('th', { key: ev, className: selectedEval === ev ? 'active' : '', style: { textAlign: 'center' }, onClick: function() { setSelectedEval(ev); } }, ev + (selectedEval === ev ? ' ▲' : ''));
               })
             )
           ),
           h('tbody', null,
             WEEKS.map(function(week, wi) {
-              return h('tr', { key: week, style: { background: wi % 2 === 0 ? 'rgba(245,200,66,0.02)' : 'transparent' } },
+              return h('tr', { key: week, style: { background: wi % 2 === 0 ? 'rgba(26,86,219,0.02)' : 'transparent' } },
                 h('td', { style: { color: 'var(--text-dim)', fontSize: 12 } }, week),
                 EVALUATIONS.map(function(ev) {
-                  return h('td', {
-                    key: ev,
-                    className: selectedEval === ev ? 'active-col' : 'inactive-col',
-                    style: { textAlign: 'center' },
-                  }, fmt(outshareByEval[ev][wi]) + '%');
+                  return h('td', { key: ev, className: selectedEval === ev ? 'active-col' : 'inactive-col' }, fmt(outshareByEval[ev][wi]) + '%');
                 })
               );
             })
@@ -396,30 +466,56 @@ function App() {
     // 03 エリアデータ
     h('div', { className: 'section' },
       h('div', { className: 'section-title' }, '03 / エリアデータ'),
-      InputRow('エリアピーク客数', areaPeakCustomers, setAreaPeakCustomers, '人'),
+
+      // Area tabs
+      h('div', { style: { marginBottom: 20 } },
+        h('div', { style: { fontSize: 10, color: 'var(--text-dim)', marginBottom: 8, letterSpacing: '0.1em' } }, 'エリア選択'),
+        h('div', { className: 'area-bar' },
+          areas.map(function(a, i) {
+            return h('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 2 } },
+              h('button', {
+                className: 'area-tab' + (currentArea === i ? ' active' : ''),
+                onClick: function() { setCurrentArea(i); }
+              }, a.name),
+              areas.length > 1
+                ? h('button', { className: 'area-tab-del', onClick: function() { removeArea(i); }, title: '削除' }, '✕')
+                : null
+            );
+          }),
+          h('button', { className: 'area-add-btn', onClick: addArea }, '＋ エリア追加')
+        )
+      ),
+
+      // Area name
+      h('div', { className: 'input-row' },
+        h('label', { className: 'input-label' }, 'エリア名'),
+        h('input', {
+          type: 'text', className: 'area-name-input',
+          value: area.name,
+          onChange: function(e) { updateArea('name', e.target.value); },
+        })
+      ),
+
+      InputRow('エリアピーク客数', area.areaPeakCustomers, function(v) { updateArea('areaPeakCustomers', v); }, '人'),
+
       h('div', { className: 'sub-label', style: { margin: '16px 0 10px' } }, 'STORE LIST（1行目 ＝ 自店）'),
-      stores.map(function(store, i) {
+      area.stores.map(function(store, i) {
         var isMyStore = i === 0;
         return h('div', { key: i, className: 'store-row' },
           h('input', {
-            type: 'text',
-            value: store.name,
+            type: 'text', value: store.name,
             onChange: function(e) { updateStore(i, 'name', e.target.value); },
             className: 'store-name-input' + (isMyStore ? ' mystore' : ''),
           }),
           h('input', {
-            type: 'text',
-            inputMode: 'numeric',
-            value: store.machines,
+            type: 'text', inputMode: 'numeric', value: store.machines,
             onChange: function(e) { updateStore(i, 'machines', e.target.value); },
             onFocus: function(e) { e.target.select(); },
             className: 'store-machines-input',
           }),
           h('span', { className: 'suffix' }, '台'),
-          h('span', { className: 'store-share' },
-            'シェア ' + (totalAreaMachines > 0 ? fmt(n(store.machines) / totalAreaMachines * 100) : '0.00') + '%'
-          ),
-          (stores.length > 1 && i !== 0)
+          h('span', { className: 'store-share' }, 'シェア ' + (totalAreaMachines > 0 ? fmt(n(store.machines) / totalAreaMachines * 100) : '0.00') + '%'),
+          (area.stores.length > 1 && i !== 0)
             ? h('button', { onClick: function() { removeStore(i); }, className: 'remove-btn' }, '✕')
             : null
         );
@@ -435,16 +531,13 @@ function App() {
     h('div', { className: 'section' },
       h('div', { className: 'section-title' }, '04 / 算出結果'),
 
-      // 評価選択
       h('div', { className: 'eval-row' },
         h('span', { className: 'eval-label' }, 'EVALUATION :'),
         EVALUATIONS.map(function(ev) {
-          var cls = 'eval-btn' + (selectedEval === ev ? ' active' : '') + (ev === '悪' ? ' bad' : '');
-          return h('button', { key: ev, className: cls, onClick: function() { setSelectedEval(ev); } }, ev);
+          return h('button', { key: ev, className: 'eval-btn' + (selectedEval === ev ? ' active' : '') + (ev === '悪' ? ' bad' : ''), onClick: function() { setSelectedEval(ev); } }, ev);
         })
       ),
 
-      // 自店週別
       h('div', { className: 'sub-label' }, '自店　WEEKLY UNIT COUNT'),
       h('div', { className: 'week-cards' },
         WEEKS.map(function(week, wi) {
@@ -457,7 +550,6 @@ function App() {
         })
       ),
 
-      // 全店舗テーブル
       h('div', { className: 'sub-label' }, '全店舗　AREA UNIT TABLE（' + selectedEval + '）'),
       h('div', { style: { overflowX: 'auto', marginBottom: 24 } },
         h('table', null,
@@ -470,7 +562,7 @@ function App() {
             )
           ),
           h('tbody', null,
-            stores.map(function(store, i) {
+            area.stores.map(function(store, i) {
               var isMyStore = i === 0;
               var share = totalAreaMachines > 0 ? n(store.machines) / totalAreaMachines : 0;
               var wc = weeklyAreaCustomers.map(function(c) { return Math.round(c * share); });
@@ -495,7 +587,6 @@ function App() {
         )
       ),
 
-      // 導入推奨台数
       h('div', { className: 'sub-label' }, '導入推奨台数　RECOMMENDED UNITS（5週目ベース）'),
       h('div', { className: 'recommend-box ' + (isBad ? 'bad' : 'normal') },
         h('div', { style: { textAlign: 'center' } },
@@ -507,7 +598,7 @@ function App() {
         h('div', { style: { flex: 1, minWidth: 200 } },
           h('div', { className: 'rivals-label' }, '競合店 導入推奨台数'),
           h('div', { className: 'rival-cards' },
-            stores.slice(1).map(function(store, i) {
+            area.stores.slice(1).map(function(store, i) {
               var share = totalAreaMachines > 0 ? n(store.machines) / totalAreaMachines : 0;
               return h('div', { key: i, className: 'rival-card' },
                 h('div', { className: 'rival-name' }, store.name),
@@ -518,43 +609,27 @@ function App() {
           )
         ),
         h('div', { className: 'rec-info' },
-          h('div', null,
-            h('span', { className: 'rec-info-label' }, '評価　'),
-            h('span', { className: 'rec-info-val', style: { color: isBad ? 'var(--warn)' : 'var(--amber)' } }, selectedEval)
-          ),
-          h('div', null,
-            h('span', { className: 'rec-info-label' }, '5週目アウトシェア　'),
-            h('span', { className: 'rec-info-val', style: { color: 'var(--text)' } }, fmt(outshareByEval[selectedEval][4]) + '%')
-          ),
-          h('div', null,
-            h('span', { className: 'rec-info-label' }, 'エリア予測客数　'),
-            h('span', { className: 'rec-info-val', style: { color: 'var(--text)' } }, fmt(weeklyAreaCustomers[4]) + '人')
-          )
+          h('div', null, h('span', { className: 'rec-info-label' }, '評価　'), h('span', { className: 'rec-info-val', style: { color: isBad ? 'var(--warn)' : 'var(--amber)' } }, selectedEval)),
+          h('div', null, h('span', { className: 'rec-info-label' }, '5週目アウトシェア　'), h('span', { className: 'rec-info-val', style: { color: 'var(--text)' } }, fmt(outshareByEval[selectedEval][4]) + '%')),
+          h('div', null, h('span', { className: 'rec-info-label' }, 'エリア予測客数　'), h('span', { className: 'rec-info-val', style: { color: 'var(--text)' } }, fmt(weeklyAreaCustomers[4]) + '人'))
         )
       ),
 
-      // 充足率
       h('div', {
         className: 'suf-box',
-        style: {
-          background: isGood ? 'var(--good-dim)' : 'var(--warn-dim)',
-          border: '1px solid ' + (isGood ? 'rgba(0,230,118,0.25)' : 'rgba(255,107,53,0.25)'),
-        }
+        style: { background: isGood ? 'var(--good-dim)' : 'var(--warn-dim)', border: '1px solid ' + (isGood ? 'rgba(39,103,73,0.25)' : 'rgba(229,62,62,0.25)') }
       },
         h('div', null,
           h('div', { className: 'suf-label' }, 'AREA SUFFICIENCY RATE（初週）'),
           h('div', { className: 'suf-num', style: { color: isGood ? 'var(--good)' : 'var(--warn)' } }, fmt(sufficiencyRate) + '%')
         ),
-        h('div', { className: 'suf-msg', style: { color: isGood ? 'rgba(0,230,118,0.7)' : 'rgba(255,107,53,0.7)' } },
+        h('div', { className: 'suf-msg', style: { color: isGood ? '#276749' : 'rgba(229,62,62,0.8)' } },
           isGood ? '✓ 需要あり — 導入余地あります' : '⚠ 需要超過 — エリアが飽和傾向です'
         )
       )
     ),
 
-    // Footer
-    h('div', { className: 'footer' },
-      'OUTSHARE = PREF SALES ÷ PREF MAX PLAYERS　／　UNIT = AREA PEAK × OUTSHARE × STORE SHARE'
-    )
+    h('div', { className: 'footer' }, 'OUTSHARE = PREF SALES ÷ PREF MAX PLAYERS　／　UNIT = AREA PEAK × OUTSHARE × STORE SHARE')
   );
 }
 
