@@ -226,6 +226,8 @@
     .planned-suffix { font-size: 11px; color: var(--text-dim); }
     .planned-confirmed { font-size: 10px; color: var(--amber); background: rgba(26,86,219,0.1); padding: 2px 6px; border-radius: 10px; margin-left: 4px; }
     .footer { text-align: center; font-size: 10px; color: rgba(26,86,219,0.3); margin-top: 12px; letter-spacing: 0.08em; font-family: 'Rajdhani', sans-serif; }
+    .reset-btn { background: rgba(229,62,62,0.06); color: #dc2626; border: 1px solid rgba(220,38,38,0.3); border-radius: 2px; padding: 7px 18px; font-size: 12px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; }
+    .reset-btn:hover { background: rgba(220,38,38,0.12); }
   </style>
 </head>
 <body>
@@ -262,7 +264,7 @@ const DEFAULT_AREA = {
 const DEFAULT_GLOBAL = {
   prefMachines: "16926",
   peakOccupancy: "38.7",
-  prefRatio: "2",
+  prefRatio: "1.6",
 };
 
 function n(v) { return parseFloat(v) || 0; }
@@ -393,15 +395,31 @@ function App() {
   const sufficiencyRate = weeklyAreaCustomers[4] > 0 ? (totalSupply5w / weeklyAreaCustomers[4]) * 100 : 0;
 
   // 充足率3段階：～100%青、100～120%緑、120%超赤
-  var sufColor  = sufficiencyRate < 100 ? '#3b82f6' : sufficiencyRate <= 120 ? 'var(--good)' : 'var(--warn)';
-  var sufBg     = sufficiencyRate < 100 ? 'rgba(59,130,246,0.08)' : sufficiencyRate <= 120 ? 'var(--good-dim)' : 'var(--warn-dim)';
-  var sufBorder = sufficiencyRate < 100 ? 'rgba(59,130,246,0.25)' : sufficiencyRate <= 120 ? 'rgba(39,103,73,0.25)' : 'rgba(229,62,62,0.25)';
+  var sufColor  = sufficiencyRate < 100 ? '#3b82f6' : sufficiencyRate <= 125 ? 'var(--good)' : 'var(--warn)';
+  var sufBg     = sufficiencyRate < 100 ? 'rgba(59,130,246,0.08)' : sufficiencyRate <= 125 ? 'var(--good-dim)' : 'var(--warn-dim)';
+  var sufBorder = sufficiencyRate < 100 ? 'rgba(59,130,246,0.25)' : sufficiencyRate <= 125 ? 'rgba(39,103,73,0.25)' : 'rgba(229,62,62,0.25)';
   var sufMsg    = sufficiencyRate < 100 ? '◎ 余地あり — 導入余地が大きい状態です'
-                : sufficiencyRate <= 120 ? '✓ 適正 — エリア需要と供給のバランスが取れています'
+                : sufficiencyRate <= 125 ? '✓ 適正 — エリア需要と供給のバランスが取れています'
                 : '⚠ 供給過多 — エリアが飽和傾向です';
   var sufNote   = confirmedCount > 0 ? '（' + confirmedCount + '店確定反映・5週目ベース）' : '（シェア按分・5週目ベース）';
 
   const isBad  = selectedEval === "悪";
+
+  function handleReset() {
+    if (window.confirm('初期データに戻します。\n現在の入力内容はすべて消えます。\nよろしいですか？')) {
+      try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+      setPrefMachines("16926");
+      setPeakOccupancy("38.7");
+      setPrefRatio("1.6");
+      setMachineName("");
+      setNationalSales("10000");
+      setSelectedEval("良");
+      setAreas([DEFAULT_AREA]);
+      setCurrentArea(0);
+      setMyPlannedUnits("");
+      alert('初期データに戻しました。');
+    }
+  }
 
   function InputRow(label, value, setter, suffix) {
     return h('div', { className: 'input-row' },
@@ -702,6 +720,9 @@ function App() {
       )
     ),
 
+    h('div', { style: { textAlign: 'center', marginBottom: 12 } },
+      h('button', { className: 'reset-btn', onClick: handleReset }, '↺ 初期データに戻す')
+    ),
     h('div', { className: 'footer' }, 'OUTSHARE = PREF SALES ÷ PREF MAX PLAYERS　／　UNIT = AREA PEAK × OUTSHARE × STORE SHARE')
   );
 }
