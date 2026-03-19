@@ -395,11 +395,21 @@ function App() {
   const sufficiencyRate = weeklyAreaCustomers[4] > 0 ? (totalSupply5w / weeklyAreaCustomers[4]) * 100 : 0;
 
   // 充足率3段階：～100%青、100～120%緑、120%超赤
-  var sufColor  = sufficiencyRate < 100 ? '#3b82f6' : sufficiencyRate <= 125 ? 'var(--good)' : 'var(--warn)';
-  var sufBg     = sufficiencyRate < 100 ? 'rgba(59,130,246,0.08)' : sufficiencyRate <= 125 ? 'var(--good-dim)' : 'var(--warn-dim)';
-  var sufBorder = sufficiencyRate < 100 ? 'rgba(59,130,246,0.25)' : sufficiencyRate <= 125 ? 'rgba(39,103,73,0.25)' : 'rgba(229,62,62,0.25)';
-  var sufMsg    = sufficiencyRate < 100 ? '◎ 余地あり — 導入余地が大きい状態です'
-                : sufficiencyRate <= 125 ? '✓ 適正 — エリア需要と供給のバランスが取れています'
+  var sufColor  = sufficiencyRate < 100 ? '#1d4ed8'
+                : sufficiencyRate <= 120 ? '#15803d'
+                : sufficiencyRate <= 140 ? '#d97706'
+                : '#dc2626';
+  var sufBg     = sufficiencyRate < 100 ? 'rgba(29,78,216,0.08)'
+                : sufficiencyRate <= 120 ? 'rgba(21,128,61,0.08)'
+                : sufficiencyRate <= 140 ? 'rgba(217,119,6,0.08)'
+                : 'rgba(220,38,38,0.08)';
+  var sufBorder = sufficiencyRate < 100 ? 'rgba(29,78,216,0.35)'
+                : sufficiencyRate <= 120 ? 'rgba(21,128,61,0.35)'
+                : sufficiencyRate <= 140 ? 'rgba(217,119,6,0.35)'
+                : 'rgba(220,38,38,0.35)';
+  var sufMsg    = sufficiencyRate < 100 ? '◎ 積極導入 — 需要に対して供給が不足しています'
+                : sufficiencyRate <= 120 ? '✓ 余地あり — 導入余地があります'
+                : sufficiencyRate <= 140 ? '－ 適正 — エリア需要と供給のバランスが取れています'
                 : '⚠ 供給過多 — エリアが飽和傾向です';
   var sufNote   = confirmedCount > 0 ? '（' + confirmedCount + '店確定反映・5週目ベース）' : '（シェア按分・5週目ベース）';
 
